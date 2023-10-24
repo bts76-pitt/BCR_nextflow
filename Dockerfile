@@ -37,7 +37,7 @@ ARG R_BIOC_DEPS="c( \
     'fgsea' \
     )"
 
-RUN Rscript -e "install.packages(${R_DEPS}, clean=TRUE)" && \
-    Rscript -e "BiocManager::install(${R_BIOC_DEPS})"  && \
-    Rscript -e "install.packages('NMF', clean=TRUE)"
+RUN Rscript -e "install.packages(${R_DEPS}, clean=TRUE)"
+RUN Rscript -e "BiocManager::install(${R_BIOC_DEPS})"
+RUN Rscript -e "install.packages('NMF', clean=TRUE)"
 CMD ["R"]
