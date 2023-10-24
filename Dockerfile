@@ -30,7 +30,7 @@ ARG R_BIOC_DEPS="c( \
     'msa', \
     'GenomicRanges', \
     'GenomicAlignments',\
-    'BrepPhylo' \
+    'BrepPhylo', \
     'org.Mm.eg.db', \
     'org.Hs.eg.db', \
     'edgeR', \
