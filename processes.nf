@@ -6,7 +6,7 @@ process mixcr_align_bulk{
     tag "$SampleID"
     label "mixcr"
 
-    publishDir "$params.outdir/MiXCR_bulk/$SampleID",
+    publishDir "$params.outdir/MiXCR/$SampleID",
         mode: 'copy',
         overwrite: true
 
@@ -43,7 +43,7 @@ process mixcr_align_sc{
     tag "$SampleID"
     label "mixcr"
 
-    publishDir "$params.outdir/MiXCR_10X",
+    publishDir "$params.outdir/MiXCR",
         mode: 'copy',
         overwrite: true
 
@@ -81,7 +81,7 @@ process mixcr_assemblePartial_1{
     tag "$SampleID"
     label "mixcr"
 
-    publishDir "$params.outdir/MiXCR_bulk/$SampleID",
+    publishDir "$params.outdir/MiXCR/$SampleID",
         mode: 'copy',
         overwrite: true
 
@@ -112,7 +112,7 @@ process mixcr_assemblePartial_2{
     tag "$SampleID"
     label "mixcr"
 
-    publishDir "$params.outdir/MiXCR_bulk/$SampleID",
+    publishDir "$params.outdir/MiXCR/$SampleID",
         mode: 'copy',
         overwrite: true
 
@@ -143,7 +143,7 @@ process mixcr_assemble_bulk{
     tag "$SampleID"
     label "mixcr"
 
-    publishDir "$params.outdir/MiXCR_bulk/$SampleID",
+    publishDir "$params.outdir/MiXCR/$SampleID",
         mode: 'copy',
         overwrite: true
 
@@ -178,7 +178,7 @@ process mixcr_assemble_sc{
     tag "$SampleID"
     label "mixcr"
 
-    publishDir "$params.outdir/MiXCR_10X/$SampleID",
+    publishDir "$params.outdir/MiXCR/$SampleID",
         mode: 'copy',
         overwrite: true
 
@@ -213,7 +213,7 @@ process mixcr_assembleContigs {
     tag "$SampleID"
     label "mixcr"
 
-    publishDir "$params.outdir/MiXCR_bulk/$SampleID",
+    publishDir "$params.outdir/MiXCR/$SampleID",
         mode: 'copy',
         overwrite: true
 
@@ -276,7 +276,7 @@ process platypus {
     time "$params.time"
     memory "$params.memory"
 
-    label 'all_cpus'
+    label 'platypus'
     tag "Platypus"
 
     publishDir "$params.outdir/Platypus",
