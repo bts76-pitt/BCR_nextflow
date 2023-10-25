@@ -1,0 +1,5 @@
+SampleID,R1,R2,Group
+Sample_1,/path/to/Sample_1_R1.fq.gz,/path/to/Sample_1_R2.fq.gz,Group_1
+Sample_2,/path/to/Sample_2_R1.fq.gz,/path/to/Sample_2_R2.fq.gz,Group_1
+Sample_3,/path/to/Sample_3_R1.fq.gz,/path/to/Sample_3_R2.fq.gz,Group_2
+Sample_4,/path/to/Sample_4_R1.fq.gz,/path/to/Sample_4_R2.fq.gz,Group_2
