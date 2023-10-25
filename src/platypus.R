@@ -39,9 +39,6 @@ option_list <- list(
 )
 
 arguments <- parse_args(OptionParser(option_list = option_list))
-#arguments$metadata <- file.path("/ix/drajasundaram/drajasundaram/shared_bts76_dhr11/BCR_pipeline/BCR_nextflow/sampleslist.csv")
-#arguments$reports  <- file.path("/ix/drajasundaram/drajasundaram/shared_bts76_dhr11/BCR_pipeline/bcr-test/test_results/MiXCR")
-#arguments$output_dir <- file.path("/ix/drajasundaram/drajasundaram/shared_bts76_dhr11/BCR_pipeline/bcr-test/test_results/platypus")
 
 #argument handling:
 species <- arguments$species
@@ -55,6 +52,10 @@ IGH_reports <-
 metadata <- read.csv(arguments$metadata)
 
 stopifnot(nrow(metadata) > 0)
+
+if(metadata$Group == NULL | length(metadata$Group)!= nrow(metadata)){
+  stop("Group metadata is missing or incomplete! Please check, and try again.")
+}
 
 rownames(metadata) <- metadata$SampleID
 
