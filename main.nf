@@ -6,7 +6,7 @@ include {
     mixcr_align_bulk; mixcr_align_sc; mixcr_assemblePartial_1;
     mixcr_assemblePartial_2; mixcr_assemble_bulk; mixcr_assemble_sc;
     mixcr_assembleContigs; mixcr_exportClones; platypus
-} from './src/processes.nf'
+} from '${baseDir}/src/processes.nf'
 
 log.info """\
 RNASeq - BCR Pipeline
