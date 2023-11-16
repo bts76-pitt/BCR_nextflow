@@ -268,6 +268,18 @@ process mixcr_exportClones {
             -nMutations DRegion \
         ${clns} \
         ${SampleID}.tsv
+
+    #Export MiXCR Reports:
+    #json-formatted:
+    mixcr exportReports \
+    --json \
+    ${clns} \
+    ${SampleID}_MiXCR.report.json
+
+    #txt-formatted:
+    mixcr exportReports \
+    ${clns} \
+    ${SampleID}_MiXCR.report.txt
     """
 }
 
