@@ -9,7 +9,7 @@ RUN apt-get update && \
     libcurl4-openssl-dev \
     r-cran-curl
 
-# Required R packages:
+# Install required R packages
 ARG R_DEPS="c( \
     'BiocManager', \
     'dplyr', \
@@ -25,7 +25,6 @@ ARG R_DEPS="c( \
     'utils', \
     'scales' \
     )"
-# Required Bioconductor Packages:
 ARG R_BIOC_DEPS="c( \
     'Biostrings', \
     'msa', \
@@ -37,8 +36,9 @@ ARG R_BIOC_DEPS="c( \
     'edgeR', \
     'fgsea' \
     )"
-#Installation:
+
 RUN Rscript -e "install.packages(${R_DEPS}, clean=TRUE)"
 RUN Rscript -e "BiocManager::install(${R_BIOC_DEPS})"
 RUN Rscript -e "install.packages('NMF', clean=TRUE)"
+RUN Rscript -e "devtools::install_github('jokergoo/ComplexHeatmap')"
 CMD ["R"]
