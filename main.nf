@@ -4,9 +4,9 @@ nextflow.enable.dsl=2
 
 include {
     mixcr_align_bulk; mixcr_align_sc; mixcr_assemblePartial_1;
-    mixcr_assemblePartial_2; mixcr_assemble_bulk; mixcr_assemble_sc;
-    mixcr_assembleContigs; mixcr_exportClones; platypus
-} from '${baseDir}/src/processes.nf'
+    mixcr_assemblePartial_2; mixcr_assemble; mixcr_assembleContigs; 
+    mixcr_exportClones; platypus
+} from './src/processes.nf'
 
 log.info """\
 RNASeq - BCR Pipeline
@@ -38,7 +38,7 @@ workflow mixcr_bulk {
 
     //Workflow for bulk MiXCR BCR alignment:
     main:
-        mixcr_align_bulk(samples_channel) | mixcr_assemblePartial_1 | mixcr_assemblePartial_2 | mixcr_assemble_bulk | mixcr_assembleContigs | mixcr_exportClones
+        mixcr_align_bulk(samples_channel) | mixcr_assemblePartial_1 | mixcr_assemblePartial_2 | mixcr_assemble | mixcr_assembleContigs | mixcr_exportClones
 }
 
 workflow mixcr_10X_GEX {
@@ -47,7 +47,7 @@ workflow mixcr_10X_GEX {
 
     //Workflow for MiXCR 10X alignment 
     main:
-        mixcr_align_sc(samples_channel) | mixcr_assemble_sc | mixcr_assembleContigs | mixcr_exportClones
+        mixcr_align_sc(samples_channel) | mixcr_assemblePartial_1 | mixcr_assemblePartial_2 | mixcr_assemble | mixcr_assembleContigs | mixcr_exportClones
 }
 
 workflow {

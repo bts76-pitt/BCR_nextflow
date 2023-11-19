@@ -135,7 +135,7 @@ process mixcr_assemblePartial_2{
     """
 }
 
-process mixcr_assemble_bulk{
+process mixcr_assemble{
        cpus "$params.cpus"
     memory "$params.memory"
     time "$params.time"
@@ -166,41 +166,6 @@ process mixcr_assemble_bulk{
         --report ${SampleID}.assembled.report.txt \
         --json-report ${SampleID}.assembled.json \
         ${vdjca_2} \
-        ${SampleID}.clna
-    """
-}
-
-process mixcr_assemble_sc{
-    cpus "$params.cpus"
-    memory "$params.memory"
-    time "$params.time"
-
-    tag "$SampleID"
-    label "mixcr"
-
-    publishDir "$params.outdir/MiXCR/$SampleID",
-        mode: 'copy',
-        overwrite: true
-
-    input:
-    tuple val(SampleID), file(igmt), path(vdjca)
-
-    output:
-    tuple val(SampleID), file(igmt), path("${SampleID}.clna"), emit: clna
-
-    script:
-    """
-    #Full assemble:
-    mixcr assemble \
-        -OassemblingFeatures="CDR3" \
-        -OseparateByV=true \
-        -OseparateByJ=true \
-        -OseparateByC=true \
-        --write-alignments \
-        --force-overwrite \
-        --report ${SampleID}.assembled.report.txt \
-        --json-report ${SampleID}.assembled.json \
-        ${vdjca} \
         ${SampleID}.clna
     """
 }
