@@ -24,6 +24,7 @@ ARG R_DEPS="c( \
     'Seurat', \
     'utils', \
     'scales' \
+    'ade4' \
     )"
 ARG R_BIOC_DEPS="c( \
     'Biostrings', \
