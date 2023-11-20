@@ -5,7 +5,8 @@ nextflow.enable.dsl=2
 include {
     mixcr_align_bulk; mixcr_align_sc; mixcr_assemblePartial_1;
     mixcr_assemblePartial_2; mixcr_assemble; mixcr_assembleContigs; 
-    mixcr_exportClones; platypus
+    mixcr_exportClones; mixcr_align_10X_5p; mixcr_refineTags;
+    platypus
 } from './src/processes.nf'
 
 log.info """\
@@ -47,7 +48,7 @@ workflow mixcr_10X_GEX {
 
     //Workflow for MiXCR 10X alignment 
     main:
-        mixcr_align_sc(samples_channel) | mixcr_assemblePartial_1 | mixcr_assemblePartial_2 | mixcr_assemble | mixcr_assembleContigs | mixcr_exportClones
+        mixcr_align_10X_5p(samples_channel) | mixcr_refineTags | mixcr_assemblePartial_1 | mixcr_assemblePartial_2 | mixcr_assemble | mixcr_assembleContigs | mixcr_exportClones
 }
 
 workflow {
@@ -76,6 +77,10 @@ workflow {
         file(params.igmt))
         }
 
+    /*
+    * Create a channel that emits a tuple containing four elements:
+    * the location of the MiXCR output, the sample info file, and 2 R scripts
+    */
     Channel.fromPath("${params.outdir}/MiXCR")                  // Input directory
       .combine(Channel.fromPath("${params.readsfile}"))         // Reads file (.csv)
       .combine(Channel.fromPath("${baseDir}/src/platypus.R"))   // Path to platypus.R
@@ -83,11 +88,11 @@ workflow {
       .map { outdir, readsFile, platypusScript, utilsScript ->
           tuple(outdir, readsFile, platypusScript, utilsScript)
       }                                                         
-      .set { platypus_channel }                                 //Create channel of tuples for Platypus downstream analysis
+      .set { platypus_channel }
     
-    // If the sample is 10X GEX, use single-cell MiXCR preset, else use the bulk workflow:
+    // If the sample is 10X 5' GEX, use single-cell MiXCR preset, else use the bulk workflow:
     (params.is_sc ? mixcr_10X_GEX(samples_channel) : mixcr_bulk(samples_channel))
 
     // Downstream processing w/ Platypus:
-    platypus(platypus_channel)
+    // platypus(platypus_channel)
 }
