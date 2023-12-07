@@ -5,6 +5,7 @@ LABEL maintainer=" Brent T. Schlegel [bts76@pitt.edu]" \
 # Install ps, for Nextflow. https://www.nextflow.io/docs/latest/tracing.html
 RUN apt-get update && \
     apt-get install -y procps \
+    libglpk40 \
     pandoc \
     libcurl4-openssl-dev \
     r-cran-curl
@@ -23,9 +24,10 @@ ARG R_DEPS="c( \
     'devtools', \
     'Seurat', \
     'utils', \
-    'scales' \
-    'ade4' \
-    )"
+    'scales', \
+    'ade4', \
+    'phylobase' \
+)"
 ARG R_BIOC_DEPS="c( \
     'Biostrings', \
     'msa', \
@@ -35,11 +37,14 @@ ARG R_BIOC_DEPS="c( \
     'org.Mm.eg.db', \
     'org.Hs.eg.db', \
     'edgeR', \
-    'fgsea' \
+    'fgsea', \
+    'ggtree' \
     )"
 
-RUN Rscript -e "install.packages(${R_DEPS}, clean=TRUE)"
-RUN Rscript -e "BiocManager::install(${R_BIOC_DEPS})"
+RUN Rscript -e "install.packages(${R_DEPS}, clean=TRUE, dependencies=TRUE)"
+RUN Rscript -e "BiocManager::install(${R_BIOC_DEPS}, dependencies=TRUE)"
 RUN Rscript -e "install.packages('NMF', clean=TRUE)"
+RUN Rscript -e "devtools::install_github('fmichonneau/phylobase')"
+RUN Rscript -e "devtools::install_github('Fraternalilab/BrepPhylo',dependencies = TRUE)"
 RUN Rscript -e "devtools::install_github('jokergoo/ComplexHeatmap')"
 CMD ["R"]
