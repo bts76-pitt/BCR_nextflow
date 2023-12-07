@@ -15,7 +15,7 @@ option_list <- list(
   make_option(
     c("-r", "--reports"),
     type = "character",
-    default = "./MiXCR",
+    default = "/ix/drajasundaram/drajasundaram/shared_bts76_dhr11/BCR_data/Anuradha/nf_out/MiXCR",
     help = "Path to MiXCR output (IGH) [default %default]"
   ),
   make_option(
@@ -27,7 +27,7 @@ option_list <- list(
   make_option(
     c("-m", "--metadata"),
     type = "character",
-    default = file.path("./samplelist.csv"),
+    default = file.path("../db/sampleslist.csv"),
     help = "Path to sample metadata table [default %default]"
   ),
   make_option(
@@ -47,13 +47,13 @@ stopifnot(species %in% valid_species)
 
 outdir <- file.path(arguments$output_dir)
 IGH_reports <-
-  list.files(file.path(arguments$reports), full.names = T, pattern = "_IGH.tsv",recursive = T)
+  list.files(file.path(arguments$reports), full.names = T, pattern = ".tsv",recursive = T)
 
 metadata <- read.csv(arguments$metadata)
 
 stopifnot(nrow(metadata) > 0)
 
-if(metadata$Group == NULL | length(metadata$Group)!= nrow(metadata)){
+if(is.null(metadata$Group) | length(metadata$Group)!= nrow(metadata)){
   stop("Group metadata is missing or incomplete! Please check, and try again.")
 }
 
@@ -94,7 +94,7 @@ for (file in IGH_reports) {
 IGH_reports <- list.files("./reformatted", full.names = T)
 
 print("Metadata:")
-print(metadata[basename(IGH_reports) %>% str_replace_all(., "_IGH.tsv", ""), "Group"])
+print(metadata[basename(IGH_reports) %>% str_replace_all(., ".tsv", ""), "Group"])
 
 #Step 2: build Platypus VGM matrix from reformatted MiXCR output
 vgm <- custom_VDJ_bulk_to_vgm(
@@ -103,7 +103,7 @@ vgm <- custom_VDJ_bulk_to_vgm(
   integrate.MIXCR.output = TRUE,
   vgm.expanded = TRUE,
   clone.strategy = "cdr3.aa",
-  group.id = metadata[basename(IGH_reports) %>% str_replace_all(., "_IGH.tsv", ""), "Group"],
+  group.id = metadata[basename(IGH_reports) %>% str_replace_all(., ".tsv", ""), "Group"],
   cell.type = "B.cell",
   batches = rep("1", length(IGH_reports)),
   best.match.only = TRUE

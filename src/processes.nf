@@ -313,7 +313,7 @@ process mixcr_exportClones {
     """
     #Export clones:
     mixcr exportClones \
-            --chains IGH
+            --chains IGH \
             --impute-germline-on-export \
             -allAAFeaturesImputed CDR1Begin FR4End \
             -allNFeaturesImputed CDR1Begin FR4End \
